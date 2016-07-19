@@ -92,7 +92,7 @@ class Welcome extends REST_Controller {
  If you do not offer $key, return an array which contains all information in the input stream.
  If you offer $key, return the value of that.
 #### $this->api->response
-__void response($data[, $code = 200[, $type = null]])
+__void response($data[, $code = 200[, $type = null]])__
  Send response to client and exit.
 
  If $data is an array or an object, we use json_encode function to treat data and set `Content-Type` to `application/json`.
