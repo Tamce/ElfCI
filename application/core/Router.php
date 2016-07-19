@@ -111,6 +111,16 @@ class CI_Router {
 	 */
 	public $enable_query_strings = FALSE;
 
+  /**
+   * Specific HTTP verb in route rules
+   *
+   * Determines whether to add default HTTP verb after methods.
+   * Add verb if this value is FALSE.
+   *
+   * @var bool
+   */
+	public $http_verb_specific = FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -382,9 +392,17 @@ class CI_Router {
 			if (is_array($val))
 			{
 				$val = array_change_key_case($val, CASE_LOWER);
+
 				if (isset($val[$http_verb]))
 				{
 					$val = $val[$http_verb];
+					$this->http_verb_specific = TRUE;
+				}
+				else if (isset($val['*']))
+				{
+					// If we don't have specific HTTP verb in route config, then check common case `*`
+					$val = $val['*'];
+					$this->http_verb_specific = TRUE;
 				}
 				else
 				{
@@ -459,7 +477,13 @@ class CI_Router {
 	 */
 	public function set_method($method)
 	{
-		if (is_cli() || strtolower($_SERVER['REQUEST_METHOD']) === 'get')
+		$http_verb = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD']) : 'cli';
+		if ($this->http_verb_specific)
+		{
+			// If we got specific HTTP verb in route rules, we should not add default http verb after methods.
+			$this->method = $method;
+		}
+		else if ($http_verb === 'cli' || $http_verb === 'get')
 		{
 			$this->method = $method;
 		} else {

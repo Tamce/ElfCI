@@ -1,4 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
 
-$route['user/(:any)'] = 'user/index/$1';
+// You can define API here to manage together.
+// Such as:
+// $route['product/(:any)'] = 'product/index'

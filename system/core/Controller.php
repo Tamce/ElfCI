@@ -37,37 +37,6 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class REST_API {
-	public $method;
-	private $ci;
-
-	function __construct() {
-		$this->ci =& get_instance();
-		$this->method = $this->ci->input->method();
-	}
-
-	public function response($data, $code = 200, $type = null)
-	{
-		set_status_header($code);
-		if (is_array($data) || is_object($data)) {
-			$type = empty($type) ? 'application/json' : $type;
-			header('Content-Type: ' . $type);
-			exit(json_encode($data));
-		}
-		$type = empty($type) ? 'text/plain' : $type;
-		header('Content-Type: ' . $type);
-		exit($data);
-	}
-
-	public function request($key = null) {
-		return $this->ci->input->input_stream($key);
-	}
-
-	public function query($key = null) {
-		return $this->ci->input->get($key);
-	}
-}
-
 /**
  * Application Controller Class
  *
@@ -89,8 +58,6 @@ class CI_Controller {
 	 */
 	private static $instance;
 
-	public $api;
-
 	/**
 	 * Class constructor
 	 *
@@ -111,8 +78,6 @@ class CI_Controller {
 		$this->load =& load_class('Loader', 'core');
 		$this->load->initialize();
 		log_message('info', 'Controller Class Initialized');
-
-		$this->api = new REST_API($this->input->method());
 	}
 
 	// --------------------------------------------------------------------
@@ -127,4 +92,5 @@ class CI_Controller {
 	{
 		return self::$instance;
 	}
+
 }
