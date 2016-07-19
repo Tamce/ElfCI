@@ -20,6 +20,20 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		//$this->load->view('welcome_message');
+		var_dump($this->api->query());
+		var_dump($this->api->request());
+	}
+
+	public function index_post()
+	{
+		var_dump($this->api->query());
+		var_dump($this->api->request());
+	}
+
+	public function index_put()
+	{
+		var_dump($this->api->query());
+		var_dump($this->api->request());
 	}
 }
