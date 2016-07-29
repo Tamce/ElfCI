@@ -53,4 +53,7 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+// This config sets whether we add http verb after method automatically.
+$route['disable_http_suffix'] = FALSE;
+
 require_once('api.php');

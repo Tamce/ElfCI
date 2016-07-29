@@ -53,6 +53,13 @@ $route['user/(:any)']['PUT'] = 'user/update/$1';
 
 > We also check route rules in `/application/config/api.php` in order to manage your API together.
 
+#### Disable adding HTTP verb after method name
+ We create one more reserved route rule which look like this:
+```
+$route['disable_http_suffix'] = FALSE;
+```
+ If it sets to `TRUE`, we will not add http verb after method name in any case, but you can still use http verb in route rules like `$route['user/(:any)']['PUT']`.
+
 ## Expanded Controller
  To enable RESTful Controller and use our method, just simply extends our class in your controller like this:
 ```

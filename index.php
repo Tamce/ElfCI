@@ -69,12 +69,19 @@ switch (ENVIRONMENT)
 		error_reporting(-1);
 		ini_set('display_errors', 1);
 
-		header('Access-Control-Allow-Origin: *');
-		header('Access-Control-Allow-Credentials: true');
-		header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, PATCH, DELETE');
-		header('Access-Control-Allow-Headers: Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With');
-		if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-			exit();
+		/**
+		 * Make local test allow cross site request
+		 */
+		if(!defined('STDIN') AND PHP_SAPI !== 'cli')
+		{
+			header('Access-Control-Allow-Origin: *');
+			header('Access-Control-Allow-Credentials: true');
+			header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, PATCH, DELETE');
+			header('Access-Control-Allow-Headers: Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With');
+			if($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+			{
+				exit();
+			}
 		}
 
 	break;

@@ -121,6 +121,16 @@ class CI_Router {
    */
 	public $http_verb_specific = FALSE;
 
+	/**
+	 * Disabled adding http suffix after method name.
+	 *
+	 * Determines whether to add default HTTP verb after methods.
+	 * But this config is a global rule.
+	 *
+	 * @var bool
+	 */
+	public $disable_http_suffix = FALSE;
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -182,7 +192,8 @@ class CI_Router {
 		{
 			isset($route['default_controller']) && $this->default_controller = $route['default_controller'];
 			isset($route['translate_uri_dashes']) && $this->translate_uri_dashes = $route['translate_uri_dashes'];
-			unset($route['default_controller'], $route['translate_uri_dashes']);
+			isset($route['disable_http_suffix']) && $this->disable_http_suffix = $route['disable_http_suffix'];
+			unset($route['default_controller'], $route['translate_uri_dashes'], $route['disable_http_suffix']);
 			$this->routes = $route;
 		}
 
@@ -408,6 +419,11 @@ class CI_Router {
 				{
 					continue;
 				}
+			}
+			// If the wglobal setting is disabled, we'll not add suffix too.
+			if ($this->disable_http_suffix)
+			{
+				$this->http_verb_specific = TRUE;
 			}
 
 			// Convert wildcards to RegEx
