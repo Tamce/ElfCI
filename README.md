@@ -15,7 +15,7 @@ __By ElfStack Dev Group__
  We will call:
 ```
 Class: Controller
-Method: method\_{http\_verb}
+Method: method_{http-verb}
 ```
  __BUT__
  if http_verb is `get` or `cli`(which means you run the app in command line),we won't add http\_verb after method name. It works as before.
@@ -26,7 +26,7 @@ $route['product/(:any)']['POST'] = 'product/index_post/$1';
 ```
  We keep this feature too but we expand a little.
 1. If you have specific route rules with http verb, we will not add default http verb after method name.
-2. HTTP verb allows common case `\*`.
+2. HTTP verb allows common case `*`.
 3. Specific HTTP verb is prior to the common case.
 
 
@@ -42,10 +42,9 @@ $route['user/(:any)']['PUT'] = 'user/update/$1';
  you will got:
 
 | http method | uri | which method to call |
-|--|--|--|
+|:----------:|:----------:|:----------:|
 | POST | /product/(:any) | Product::add($1) |
 | ANY OTHER | /product/(:any) | Product::index($1) |
-|--|--|--|
 | PUT | /user/(:any) | User::update($1) |
 | GET/CLI | /user/(:any) | User::index($1) |
 | POST | /user/(:any) | User::index_post($1) |
@@ -65,7 +64,7 @@ $route['disable_http_suffix'] = FALSE;
 ```
 class Welcome extends REST_Controller {
 ```
- Also you can use raw controller.(Use `CI\_Controller` instead of `REST\_Controller`.
+ Also you can use raw controller.(Use `CI_Controller` instead of `REST_Controller`.
 > Notice that: use raw controller will not change route rules, if you want to use the Router as before, just remove our router file`/appication/core/Router.php`.
 
  If you have enabled our you can use some of our methods.
@@ -100,9 +99,9 @@ class Welcome extends REST_Controller {
  If you do not offer $key, return an array which contains all information in the input stream.
  If you offer $key, return the value of that.
 #### $this->api->response
-__void response($data[, $code = 200[, $type = null]])
+__void response($data[, $code = 200[, $type = null]])__
  Send response to client and exit.
 
  If $data is an array or an object, we use json_encode function to treat data and set `Content-Type` to `application/json`.
- Else if $type not offered, we set `Content-Type` to `text/plain`, you can edit the default type in `/application/core/REST\_Controller.php`
+ Else if $type not offered, we set `Content-Type` to `text/plain`, you can edit the default type in `/application/core/REST_Controller.php`
  $code sets header http code to return, default is 200.
