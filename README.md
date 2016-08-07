@@ -1,11 +1,21 @@
-# CodeIgniter - RESTful expansion
-__By ElfStack Dev Group__
+# CodeIgniter - A very simple RESTful extension
+ __By ElfStack Dev Group__
+ __With Broken English__ :)
+ We also provide some other libraries like a more functional unit test class `Unit`.
 
 ---
 ## Summary
  This expansion for CodeIgniter is based on CodeIgniter v3.0.6.
  By using this expansion, you can create RESTful APP easily.
- Our target is fastest and easiest so we do not do so much extensions. We only provide you some basic methods which allows you to manage and treat different HTTP verbs quickly in your app.
+ Our target is fastest and easiest (and this extension for personal purpose) so we do not do so much extensions. We only provide you some basic methods which allows you to manage and treat different HTTP requests quickly in your app.
+
+## Functional Unit Test Class
+### Demo
+ Check Controller: `tests/Run`.
+ You can view the report through `yourdomain/tests/run`.
+
+### More instruction
+ None for the time being, sorry.
 
 ## Expanded Router
 ### Common Performance
@@ -57,7 +67,7 @@ $route['user/(:any)']['PUT'] = 'user/update/$1';
 ```
 $route['disable_http_suffix'] = FALSE;
 ```
- If it sets to `TRUE`, we will not add http verb after method name in any case, but you can still use http verb in route rules like `$route['user/(:any)']['PUT']`.
+ If it sets to `TRUE`, we will not add http verb after method name in any case, but you can still use specific http verbs in route rules like `$route['user/(:any)']['PUT']`.
 
 ## Expanded Controller
  To enable RESTful Controller and use our method, just simply extends our class in your controller like this:
@@ -85,21 +95,30 @@ class Welcome extends REST_Controller {
 
  The value of this var is the lower case of HTTP verbs or `cli` in command line.
  such as `get`,`post`,`put`,`patch`,`delete`,`options`,`cli`
+
+---
 #### $this->api->query
  __mixed query([$key = null])__
+
  Returns query string.
 
  If you do not offer $key, return an array which contains all information of query string.
  If you offer $key, return the value of that.
+
+---
 #### $this->api->request
  __mixed request([$key = null])__
+
  Returns data in the HTTP body.
 
  This function get data from `php://input` and translate into array.
  If you do not offer $key, return an array which contains all information in the input stream.
  If you offer $key, return the value of that.
+
+---
 #### $this->api->response
-__void response($data[, $code = 200[, $type = null]])__
+ __void response($data[, $code = 200[, $type = null]])__
+
  Send response to client and exit.
 
  If $data is an array or an object, we use json_encode function to treat data and set `Content-Type` to `application/json`.

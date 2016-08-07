@@ -69,7 +69,7 @@ namespace ElfStack\Test {
 		 */
 		function expect($val)
 		{
-			$this->expector->setUp($val, $this->description, $this->$info);
+			$this->expector->setUp($val, $this->description, $this->info);
 			return $this->expector;
 		}
 
@@ -313,7 +313,7 @@ EOD;
 		 * @param  string $info        更多描述信息
 		 * @return object 已经被正确设置的单元测试描述类实例
 		 */
-		public function describe($description, $info)
+		public function describe($description, $info = '')
 		{
 			$this->describer->setUp($description, $info);
 			return $this->describer;
@@ -329,6 +329,8 @@ EOD;
 		public function start($title = 'No name test group')
 		{
 			$this->_result = '';
+			$this->numPassed = 0;
+			$this->numFailed = 0;
 			$this->CI->benchmark->mark('__ElfUnit_StartTest');
 			$this->title = $title;
 		}
@@ -342,8 +344,16 @@ EOD;
 		 * @param  string $info        测试的更多描述信息
 		 * @return bool   是否相等
 		 */
-		public function assertEqual($description, $var, $value, $info)
+		public function assertEqual($description, $var, $value, $info = '')
 		{
+			ob_start();
+			var_dump($var);
+			$var = ob_get_contents();
+			ob_clean();
+			var_dump($value);
+			$value = ob_get_contents();
+			ob_end_clean();
+
 			$this->writeResult($description, $var === $value, $value, $var, $info);
 			return $var === $value;
 		}
@@ -357,8 +367,16 @@ EOD;
 		 * @param  string $info        测试的更多描述信息
 		 * @return bool   是否不相等
 		 */
-		public function assertUnequal($description = 'No Name Test', $var, $value, $info)
+		public function assertUnequal($description = 'No Name Test', $var, $value, $info = '')
 		{
+			ob_start();
+			var_dump($var);
+			$var = ob_get_contents();
+			ob_clean();
+			var_dump($value);
+			$value = ob_get_contents();
+			ob_end_clean();
+			
 			$this->writeResult($description, $var !== $value, $value, $var, $info);
 			return $var !== $value;
 		}
@@ -400,7 +418,7 @@ EOF;
 					if (is_object($returnVal) and isset($returnVal->__overide_unit_test)) {
 						$overide = true;
 						$overideVal = $returnVal->__overide_unit_test;
-					} elseif (isset($returnVal['__overide_unit_test'])) {
+					} elseif (is_array($returnVal) and isset($returnVal['__overide_unit_test'])) {
 						$overide = true;
 						$overideVal = $returnVal['__overide_unit_test'];
 					}
